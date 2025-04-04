@@ -24,6 +24,9 @@ export default {
       screens: {
         'xs': {'max': '345px'}, // 345px 이하일 때 적용
       },
+      backgroundImage: {
+        'multi-gradient': 'linear-gradient(to bottom, #F5C150, #DE85A1, #7E68E7, #7E8FF4, #57B2FB)',
+      }
     },
   },
   plugins: [],
