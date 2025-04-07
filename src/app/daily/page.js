@@ -126,11 +126,11 @@ export default function DailyTask() {
                                 Once you hold a ticket, you can submit your answer to this week's question and start earning rewards based on your contribution.</p>
                         </div>
                         <div className="w-full flex justify-center relative gap-[5%]  ">
-                            <div className="w-[45%] rounded-[24px] py-1  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
-                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">Invite a friend</p>
+                            <div className="w-[45%] rounded-[24px] py-1  flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
+                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">1Ticket / 500 SAGU</p>
                             </div>
                             <div className="w-[45%] rounded-[24px] py-2 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
-                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">Copy Link</p>
+                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">5Ticket / 2K SAGU</p>
                             </div>
                         </div>
                     </div>
