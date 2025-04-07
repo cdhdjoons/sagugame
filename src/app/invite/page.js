@@ -45,9 +45,9 @@ export default function Invite() {
                             />
                         </div>
                     </div>
-                    <div className="w-[90%] h-full flex flex-col justify-between pt-[5%] rounded-[23px]">
+                    <div className="w-[90%] h-full flex flex-col justify-between rounded-[23px]">
                         <div className="w-full relative flex justify-center ">
-                            <div className=" w-[30vmax] sm:w-[30vmin] aspect-[497/612] relative ">
+                            <div className=" w-[25vmax] sm:w-[30vmin] aspect-[497/612] relative ">
                                 <Image
                                     src="/image/sagu_invite_main.png"
                                     alt="scroll"

@@ -15,8 +15,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`bg-black flex justify-center min-h-dvh m-0 p-0 ${inter.className}`} >
-        <div className=" w-full max-w-[500px] max-h-[1080px] bg-multi-gradient relative flex flex-col justify-between overflow-hidden"
+      <body className={`bg-black flex justify-center m-0 p-0 ${inter.className}`} >
+        <div className=" w-full max-w-[500px] max-h-[1080px] h-screen bg-multi-gradient relative flex flex-col justify-between overflow-scroll"
           >
             {children}
           <Analytics />
