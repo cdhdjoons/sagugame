@@ -18,7 +18,6 @@ export default function Home() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            
               <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start aspect-[342/75] relative active:scale-95 transition-transform duration-100 ">
                 <div className=" w-full flex flex-col">
                   <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Welcome</p>
