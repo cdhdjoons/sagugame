@@ -17,6 +17,7 @@ export default function DailyTask() {
     const [remainHours, setRemainHours] = useState(null);
     //invite 버튼 5번 클릭 시 포인트 지급 및 비활성화 관리
     const [inviteCount, setInviteCount] = useState(0);
+    const [viewportHeight, setViewportHeight] = useState(0);
 
     const manifestUrl = "https://pdggame.vercel.app/tonconnect-manifest.json";
 
@@ -47,6 +48,10 @@ export default function DailyTask() {
         if (savedCount) {
             setInviteCount(Number(savedCount));
         }
+        const updateHeight = () => setViewportHeight(window.innerHeight);
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
+        return () => window.removeEventListener('resize', updateHeight);
     }, []);
 
     //daily 클릭 시 상태 업데이트 
@@ -98,31 +103,44 @@ export default function DailyTask() {
     return (
         <TonConnectUIProvider manifestUrl={manifestUrl}>
             <AnimatePresence mode="wait">
-                <motion.div className={` w-full h-full flex flex-col items-center pb-[2%]`}
+                <motion.div className={` w-full ${viewportHeight < 700 ? 'h-[590px]' : 'h-full'} flex flex-col justify-start py-[5%] ${viewportHeight > 850 && viewportHeight < 900 ? 'gap-[5%]' : ''} items-center overflow-scroll`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 1 }}
                 >
-                    <div className={`w-full max-w-[500px] px-[5%] relative flex flex-col `} >
-                        <p className="w-full text-left text-[5vmax] sm:text-[4vmin] font-bold text-white ">Task List</p>
-                        <p className="w-full text-left text-[2vmax] sm:text-[2vmin] text-black ">Earn PDG and Play Game</p>
-                    </div>
-                    <div className=" w-[90%] h-full max-w-[500px] pb-[10%] flex flex-col justify-center items-center bg-boxBg rounded-[23px]" >
-                        <div className=" w-full flex flex-col gap-[2%] items-center relative ">
-                            <div className=" w-[30vmax] sm:w-[20vmax] aspect-[616/182] relative ">
-                                <Image
-                                    src="/image/intro_logo.png"
-                                    alt="main logo"
-                                    layout="fill"
-                                    objectFit="cover"
-                                />
+                    <div className="w-[90%] px-[3%] pb-[5%] flex flex-col gap-2 items-start ">
+                        <div className=" w-full flex flex-col ">
+                            <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Task center</p>
+                        </div>
+                        <div className="w-[50vmin] sm:w-[40vmin] aspect-[306/59] relative">
+                            <Image
+                                src="/image/sagu_logo.png"
+                                alt="main logo"
+                                layout="fill"
+                                objectFit="cover"
+                            />
+                        </div>
+                        <div className=" w-full flex flex-col ">
+                            <p className="text-white text-[3.5vmin] sm:text-[2vmin] xs:text-[4.5vmin]"><span className="font-bold">Use your SAGU tokens to purchase a participation ticket.<br /></span>
+                                Once you hold a ticket, you can submit your answer to this week's question and start earning rewards based on your contribution.</p>
+                        </div>
+                        <div className="w-full flex justify-center relative gap-[5%]  ">
+                            <div className="w-[45%] rounded-[24px] py-3  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
+                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">Invite a friend</p>
                             </div>
-                            <p className=" text-[1.5vmax] sm:text-[1.3vmax] text-[#00FF08] font-bold">{remainHours}/24h</p>
+                            <div className="w-[45%] rounded-[24px] py-3 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
+                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">Copy Link</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className=" w-full px-[2%] flex flex-col items-center " >
+                        <div className=" w-full flex flex-col items-center relative gap-2 ">
+                            {/* <p className=" text-[1.5vmax] sm:text-[1.3vmax] text-[#00FF08] font-bold">{remainHours}/24h</p> */}
                             <div className=" w-[90%] relative flex justify-between items-center">
-                                <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
+                                <div className=" w-[14vmin] sm:w-[8vmin] aspect-[98/101] relative ">
                                     <Image
-                                        src="/image/pdg_daily.png"
+                                        src="/image/sagu_game.png"
                                         alt="meatIcon"
                                         layout="fill"
                                         objectFit="cover"
@@ -136,9 +154,9 @@ export default function DailyTask() {
                             </div>
                             <div className=" w-[90%] px-[5%] flex flex-col justify-center items-center bg-white rounded-[23px]">
                                 <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[5%]">
-                                    <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
+                                    <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
-                                            src="/image/pdg_daily.png"
+                                            src="/image/sagu_game.png"
                                             alt="meatIcon"
                                             layout="fill"
                                             objectFit="cover"
@@ -153,9 +171,9 @@ export default function DailyTask() {
                                     </div>
                                 </div>
                                 <div className=" w-full flex justify-between items-center py-[5%] ">
-                                    <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
+                                    <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
-                                            src="/image/pdg_daily.png"
+                                            src="/image/sagu_game.png"
                                             alt="meatIcon"
                                             layout="fill"
                                             objectFit="cover"
@@ -172,9 +190,9 @@ export default function DailyTask() {
                             </div>
 
                             <div className=" w-[90%] relative flex justify-between items-center">
-                                <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
+                                <div className=" w-[14vmin] sm:w-[8vmin] aspect-[98/101] relative ">
                                     <Image
-                                        src="/image/pdg_option.png"
+                                        src="/image/sagu_game.png"
                                         alt="meatIcon"
                                         layout="fill"
                                         objectFit="cover"
@@ -182,15 +200,15 @@ export default function DailyTask() {
                                 </div>
                                 <div className=" flex flex-col items-start w-[55%] ">
                                     <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-white">Option Task</p>
-                                    
+
                                 </div>
                                 <p className=" w-[20%] text-center font-bold text-[#66B6FF] text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] ">+</p>
                             </div>
                             <div className=" w-[90%] px-[5%] flex flex-col justify-center items-center bg-white rounded-[23px]">
                                 <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[5%]">
-                                    <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
+                                    <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
-                                            src="/image/pdg_option.png"
+                                            src="/image/sagu_game.png"
                                             alt="meatIcon"
                                             layout="fill"
                                             objectFit="cover"
@@ -205,9 +223,9 @@ export default function DailyTask() {
                                     </a>
                                 </div>
                                 <div className=" w-full flex justify-between items-center py-[5%] ">
-                                    <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
+                                    <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
-                                            src="/image/pdg_option.png"
+                                            src="/image/sagu_game.png"
                                             alt="meatIcon"
                                             layout="fill"
                                             objectFit="cover"

@@ -18,10 +18,10 @@ export default function Home() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <a href="https://x.com/PDG_official_X" target="_blank" rel="noopener noreferrer" className="w-[90%] block">
-              <div className="w-full max-w-[450px] px-[3%] flex flex-col items-start aspect-[342/75] relative active:scale-95 transition-transform duration-100 ">
+            
+              <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start aspect-[342/75] relative active:scale-95 transition-transform duration-100 ">
                 <div className=" w-full flex flex-col">
-                  <p className="text-black text-[3vmin] sm:text-[2vmin] xs:text-[4vmin]">Welcome</p>
+                  <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Welcome</p>
                 </div>
                 <div className="w-[50vmin] sm:w-[40vmin] aspect-[306/59] relative">
                   <Image
@@ -32,7 +32,7 @@ export default function Home() {
                   />
                 </div>
               </div>
-            </a>
+            
           </motion.div>
         </AnimatePresence>
         <ClaimTimer />
