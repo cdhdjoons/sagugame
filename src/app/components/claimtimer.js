@@ -152,7 +152,7 @@ export default function ClaimTimer() {
                     </div>
                 </div>
                 <div className="w-full flex justify-center items-center relative">
-                    <div className={` bg-[#41A4FF] w-[90%] px-[3%] ${viewportHeight < 700 ? 'py-2' : 'py-4'}  rounded-[23px] flex flex-col gap-4 justify-between`}>
+                    <div className={` bg-[#41A4FF] w-[90%] px-[3%] ${viewportHeight < 700 ? 'py-2' : 'py-3'}  rounded-[23px] flex flex-col gap-4 justify-between`}>
                         <div className="w-full  px-[3%] rounded-[23px] flex items-center relative ">
                             <div className=" w-full flex justify-between z-10 ">
                                 <div className="flex flex-col ">
@@ -222,7 +222,7 @@ export default function ClaimTimer() {
                 </div>
                 <div className="  w-[90%] flex flex-col gap-2 justify-center items-center relative">
                     <div className="w-full text-white">Join Our community</div>
-                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[30px] flex justify-between items-center w-full py-4 px-4">
+                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[30px] flex justify-between items-center w-full py-2 px-4">
                         <div className="w-[8vmin] sm:w-[6vmin] aspect-[60/60] relative  ">
                             <Image
                                 src="/image/sagu_x_icon.png"
