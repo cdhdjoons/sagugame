@@ -1,7 +1,6 @@
 'use client'
 import Image from "next/image";
 import '../../../styles/leaderboard.css';
-import { franklinGothic } from "../../../styles/fonts";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 import rankerDb from "../db/rankerDb";
@@ -12,7 +11,7 @@ export default function LeaderBoard() {
     const [teleId, setTeleId] = useState('unknown');
     const [rank, setRank] = useState(0);
     //홀더 숫자 상승 
-    const [holderCount, setHolderCount] = useState(145.5);
+    const [holderCount, setHolderCount] = useState(125);
 
     useEffect(() => {
         // 초기 n2o 값 불러오기
@@ -67,9 +66,18 @@ export default function LeaderBoard() {
                 transition={{ duration: 1 }}
             >
                 <div className=" w-full h-full max-w-[500px] relative flex flex-col justify-evenly items-center " >
-                    <div className={`w-full max-w-[500px] px-[5%] relative flex flex-col `} >
-                        <p className="w-full text-left text-[5vmax] sm:text-[4vmin] font-bold text-white ">LeaderBoard</p>
-                        <p className="w-full text-left text-[2vmax] sm:text-[2vmin] text-black ">Check Your Rank</p>
+                    <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start  ">
+                        <div className=" w-full flex flex-col">
+                            <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Union center</p>
+                        </div>
+                        <div className="w-[50vmin] sm:w-[40vmin] aspect-[306/59] relative">
+                            <Image
+                                src="/image/sagu_logo.png"
+                                alt="main logo"
+                                layout="fill"
+                                objectFit="cover"
+                            />
+                        </div>
                     </div>
                     <div className=" flex flex-col items-center ">
                         <div className=" w-[25vmax] sm:w-[20vmax] aspect-[264/264] relative active:scale-90 transition-transform duration-200">
@@ -86,9 +94,9 @@ export default function LeaderBoard() {
                             >
                                 <defs>
                                     <linearGradient id="gradientColors" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#45C066" />
-                                        <stop offset="50%" stopColor="#FFC977" />
-                                        <stop offset="100%" stopColor="#C045BE" />
+                                        <stop offset="0%" stopColor="#F5C150" />
+                                        <stop offset="50%" stopColor="#7E68E7" />
+                                        <stop offset="100%" stopColor="#57B2FB" />
                                     </linearGradient>
                                 </defs>
                                 {/* 배경 원 */}
@@ -117,7 +125,7 @@ export default function LeaderBoard() {
                             <div className=" absolute left-[50%] top-[50%] p-[4%] -translate-y-[50%] -translate-x-[50%] w-[90%] h-[90%] rounded-full ">
                                 <div className="w-full aspect-[1/1] relative rounded-full ">
                                     <Image
-                                        src="/image/rank_circle_main.png"
+                                        src="/image/sagu_rank_main.png"
                                         alt="main logo"
                                         layout="fill"
                                         objectFit="fill"
@@ -134,15 +142,15 @@ export default function LeaderBoard() {
                             </div>
                         </div>
                     </div>
-                    <p className="w-full text-center text-[4vmax] sm:text-[4vmin] -rotate-2 text-[#2FF95B] mt-[5%] font-bold [-webkit-text-stroke:0.5px_black] ">{holderCount}k Holders</p>
+                    <p className="w-full text-center text-[4vmax] sm:text-[4vmin] text-white mt-[5%] font-bold [-webkit-text-stroke:0.5px_black] ">{holderCount}k Holders</p>
                     <div className="  w-[90%] py-3 flex justify-center items-center max-h-[30vmax] sm:max-h-[500px] 
                      bg-[length:100%_100%] bg-no-repeat " >
                         <div className="scroll-container w-[85%] h-[95%] flex flex-col gap-3 overflow-scroll overflow-x-hidden">
                             {rankerDb.map((ranker, index) => (
                                 <div key={ranker.name} className="w-full flex justify-stretch items-center " >
-                                    <div className=" relative w-[20%] aspect-[77/77]">
+                                    <div className=" relative w-[20%] aspect-[98/101]">
                                         <Image
-                                            src="/image/rank_icon.png"
+                                            src="/image/sagu_game.png"
                                             alt="main logo"
                                             layout="fill"
                                             objectFit="cover"

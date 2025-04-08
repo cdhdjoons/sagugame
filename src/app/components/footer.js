@@ -2,15 +2,17 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TicketContext } from "./clientOnlyWarpper";
 import { TICKETS_UPDATE_EVENT } from '../components/clientOnlyWarpper';
 import { AnimatePresence, motion } from 'framer-motion';
+import { usePathname } from "next/navigation";
 
 
 export default function Footer() {
     const { hasTickets } = useContext(TicketContext);
     const [menuColor, setMenuColor] = useState(0);
+    const pathname = usePathname()
     // console.log(hasTickets);
 
     const useTickets = () => {
@@ -23,6 +25,12 @@ export default function Footer() {
     const changeMenuColor = (num) => {
         setMenuColor(num);
     }
+
+    useEffect(() => {
+        if (pathname.includes('daily')) {
+          setMenuColor(1)
+        }
+      }, [pathname])
 
     return (
         <AnimatePresence mode="wait">

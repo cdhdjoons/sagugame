@@ -8,7 +8,7 @@
 
 /* 스크롤바의 배경 */
 .scroll-container::-webkit-scrollbar-track {
-  background: linear-gradient(to bottom, #F92FA8, #EAC48B, #45C066);
+  background: linear-gradient(to bottom, #F5C150, #DE85A1, #7E8FF4);
   border-radius: 5px;
 }
 

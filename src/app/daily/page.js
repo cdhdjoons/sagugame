@@ -19,7 +19,7 @@ export default function DailyTask() {
     const [inviteCount, setInviteCount] = useState(0);
     const [viewportHeight, setViewportHeight] = useState(0);
 
-    const manifestUrl = "https://pdggame.vercel.app/tonconnect-manifest.json";
+    const manifestUrl = "https://sagugame.vercel.app/tonconnect-manifest.json";
 
 
     useEffect(() => {
@@ -103,7 +103,7 @@ export default function DailyTask() {
     return (
         <TonConnectUIProvider manifestUrl={manifestUrl}>
             <AnimatePresence mode="wait">
-                <motion.div className={` w-full ${viewportHeight < 700 ? 'h-[590px]' : 'h-full'} flex flex-col justify-start py-[5%] ${viewportHeight > 850 && viewportHeight < 900 ? 'gap-[5%]' : ''} items-center overflow-scroll`}
+                <motion.div className={` w-full ${viewportHeight < 700 ? 'h-[590px]' : 'h-full'} flex flex-col justify-evenly py-[5%] ${viewportHeight > 850 && viewportHeight < 900 ? 'gap-[5%]' : ''} items-center overflow-scroll`}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
@@ -138,7 +138,7 @@ export default function DailyTask() {
                         <div className=" w-full flex flex-col items-center relative gap-2 ">
                             {/* <p className=" text-[1.5vmax] sm:text-[1.3vmax] text-[#00FF08] font-bold">{remainHours}/24h</p> */}
                             <div className=" w-[90%] relative flex justify-between items-center">
-                                <div className=" w-[14vmin] sm:w-[8vmin] aspect-[98/101] relative ">
+                                <div className=" w-[13vmin] sm:w-[7vmin] aspect-[98/101] relative ">
                                     <Image
                                         src="/image/sagu_game.png"
                                         alt="meatIcon"
@@ -153,7 +153,7 @@ export default function DailyTask() {
                                 <p className=" w-[20%] text-center font-bold text-[#66B6FF] text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] ">+</p>
                             </div>
                             <div className=" w-[90%] px-[5%] flex flex-col justify-center items-center bg-white rounded-[23px]">
-                                <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[5%]">
+                                <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[2%]">
                                     <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
                                             src="/image/sagu_game.png"
@@ -170,7 +170,7 @@ export default function DailyTask() {
                                         <div onClick={() => dailyHandleClick(0, 100)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledDaily[0] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
                                     </div>
                                 </div>
-                                <div className=" w-full flex justify-between items-center py-[5%] ">
+                                <div className=" w-full flex justify-between items-center py-[2%] ">
                                     <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
                                             src="/image/sagu_game.png"
@@ -183,7 +183,7 @@ export default function DailyTask() {
                                         <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">RT our Post</p>
                                         <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1k PDG</p>
                                     </div>
-                                    <a href="https://x.com/PDG_official_X" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledDaily[1] ? 'opacity-100' : 'opacity-20'}`}>
+                                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledDaily[1] ? 'opacity-100' : 'opacity-20'}`}>
                                         <div onClick={() => dailyHandleClick(1, 1000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledDaily[1] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
                                     </a>
                                 </div>
@@ -205,7 +205,7 @@ export default function DailyTask() {
                                 <p className=" w-[20%] text-center font-bold text-[#66B6FF] text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] ">+</p>
                             </div>
                             <div className=" w-[90%] px-[5%] flex flex-col justify-center items-center bg-white rounded-[23px]">
-                                <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[5%]">
+                                <div className=" w-full flex justify-between items-center border-b-[0.5px] border-b-black py-[2%]">
                                     <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
                                             src="/image/sagu_game.png"
@@ -218,11 +218,11 @@ export default function DailyTask() {
                                         <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">Follow X</p>
                                         <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1K PDG</p>
                                     </div>
-                                    <a href="https://x.com/PDG_official_X" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledTask[0] ? 'opacity-100' : 'opacity-20'}`}>
+                                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledTask[0] ? 'opacity-100' : 'opacity-20'}`}>
                                         <div onClick={() => handleClick(0, 1000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledTask[0] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
                                     </a>
                                 </div>
-                                <div className=" w-full flex justify-between items-center py-[5%] ">
+                                <div className=" w-full flex justify-between items-center py-[2%] ">
                                     <div className=" w-[12vmin] sm:w-[6vmin] aspect-[98/101] relative ">
                                         <Image
                                             src="/image/sagu_game.png"

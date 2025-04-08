@@ -12,7 +12,7 @@ export default function Invite() {
     const [copied, setCopied] = useState(false);
 
     const handleCopyClick = () => {
-        const link = "https://t.me/PDG_explorer_bot"; // 복사할 링크
+        const link = "https://t.me/sagu_knowledge_bot"; // 복사할 링크
 
         // 클립보드에 링크를 복사
         navigator.clipboard.writeText(link).then(() => {
@@ -32,7 +32,7 @@ export default function Invite() {
             >
                 <div className=" w-full h-full max-w-[500px] py-[5%] gap-[3%] relative flex flex-col justify-evenly items-center " >
                     {copied ? <div className="absolute top-[10px] z-[999]"><Alert severity="success">Copy Complete.</Alert></div> : ''}
-                    <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start aspect-[342/75] relative active:scale-95 transition-transform duration-100 ">
+                    <div className="w-[90%] max-w-[500px] px-[3%] flex flex-col items-start relative ">
                         <div className=" w-full flex flex-col">
                             <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Union center</p>
                         </div>

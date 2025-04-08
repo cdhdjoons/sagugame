@@ -21,15 +21,15 @@ export default function ClaimTimer() {
     const [n2o, setN2O] = useState(0);
     const timerRef = useRef(null);
     const hasFinished = useRef(false);
-    const [inputValue, setInputValue] = useState("");
-    const inputRef = useRef(null);
+    const [tickets, setTickets] = useState(0);
+    const [viewportHeight, setViewportHeight] = useState(0);
 
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기
         const storedStartTime = localStorage.getItem("timerStartTime");
         const lastCompletionTime = localStorage.getItem("lastCompletionTime");//timer 만료 후 체크위한 값
 
-        
+
         if (storedStartTime) {
             const elapsedTime = Math.floor((Date.now() - Number(storedStartTime)) / 1000);
             const remainingTime = Math.max(TIMER_DURATION - elapsedTime, 0);
@@ -55,22 +55,18 @@ export default function ClaimTimer() {
         if (storedN2O) {
             setN2O(Number(storedN2O));
         }
-        
-        const handleFocus = () => {
-            inputRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-          };
-      
-          const inputElement = inputRef.current;
-          inputElement.addEventListener("focus", handleFocus);
 
-        // Cleanup interval on unmount
-        return () => {
-            inputElement.removeEventListener("focus", handleFocus);
-            if (timerRef.current) {
-                clearInterval(timerRef.current);
-            }
-        };
-        
+        // 초기 티켓 값 불러오기
+        const storedTickets = localStorage.getItem("tickets");
+        if (storedTickets !== null) {
+            setTickets(Number(storedTickets));
+        }
+
+        const updateHeight = () => setViewportHeight(window.innerHeight);
+        updateHeight();
+        window.addEventListener('resize', updateHeight);
+        return () => window.removeEventListener('resize', updateHeight);
+
     }, []);
 
     const startInterval = () => {
@@ -134,89 +130,111 @@ export default function ClaimTimer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className=" flex flex-col h-full justify-evenly items-center gap-1"
+            <motion.div className={` flex flex-col justify-start items-center ${viewportHeight < 700 ? 'gap-0' : viewportHeight < 800 ? 'gap-5 pt-4' : 'gap-10 pt-5'}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="w-full min-h-[196px] h-[40%] flex justify-center items-center relative">
-                    <div className=" bg-boxBg w-[90%] h-full max-w-[450px] rounded-[23px] flex flex-col justify-between overflow-hidden">
-                        <div className="w-full max-w-[450px] px-[3%] py-[2%] rounded-[23px] flex items-center  relative active:scale-95 transition-transform duration-100 ">
-                            <div className="w-[9vmin] aspect-[59/59] relative">
-                                <Image
-                                    src="/image/p_icon2.png"
-                                    alt="main logo"
-                                    layout="fill"
-                                    objectFit="cover"
-                                />
-                            </div>
-                            <div className=" w-full flex flex-col px-[5%]">
-                                <div className="flex justify-between items-center">
-                                    <p className={` text-white text-[4vmin] sm:text-[2vmin]
-               mt-1 `}>{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o} PDG</p>
-                                    <p className="text-white text-[4vmin] sm:text-[2vmin] opacity-20">Score</p>
-                                </div>
-                                <div className=" flex justify-around">
-                                    <p className="w-full text-[4vmin] sm:text-[2vmin] -rotate-0 text-white bg-clip-text text-transparent ">Check your Score</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="w-full h-[80%] relative bg-white">
-                            <Image
-                                src="/image/pdg_main.png"
-                                alt="main logo"
-                                layout="fill"
-                                objectFit="contain"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="w-full min-h-[147px] h-[30%] flex justify-center items-center relative  ">
-                    <div className="w-[90%] py-[2%] h-full sm:w-[90%] relative flex flex-col justify-between items-center rounded-[23px] bg-boxBg">
-                        <div className="w-full flex justify-around items-center  ">
-                            <p className="  text-[#06F7A1] text-[4.5vmin] sm:text-[2.5vmin] font-bold">Earn 2000 PDG</p>
+                <div className="w-full flex justify-center items-center relative ">
+                    <div className="w-[90%] py-4 h-full gap-2 sm:w-[90%] relative flex flex-col justify-between items-center rounded-[23px] bg-mainBoxBg">
+                        <div className="w-full flex justify-center gap-[10%] items-center  ">
+                            <p className="  text-[#E1FF41] text-[4.5vmin] sm:text-[2.5vmin] font-bold">Earn SAGU</p>
                             <p className=" text-[#808080] text-[4.5vmin] sm:text-[2.5vmin] font-bold ">{formatTime(time)}</p>
                         </div>
-                        <p className="text-white opacity-50 text-center text-[3vmin] sm:text-[1.5vmin]">Enter your favorite restaurant name and get PDG.</p>
+                        <p className="text-white opacity-50 text-center text-[3vmin] sm:text-[1.5vmin]">AI is currently evaluating your response.</p>
                         <div className="w-full relative flex justify-center py-[2%] items-end ">
                             <div className="w-[80%] h-[1vmin] xs:h-[0.8vmin] sm:h-[0.7vmin] rounded-3xl bg-[#787880] relative ">
                                 <div className="w-full bg-[#007AFF] rounded-3xl h-full absolute left-0" style={{ width: progressWidth }}></div>
                                 <div className="w-[4vmin] sm:w-[2.5vmin] aspect-[1/1] bg-white rounded-full absolute -top-[150%] xs:-top-[200%] sm:-top-[150%]" style={{ left: progressWidth }}></div>
                             </div>
                         </div>
-                        <div className="flex items-center border rounded-full px-[2%] py-[0.5%] shadow-md w-[80%] bg-white">
-                            <input
-                                ref={inputRef}
-                                type="text"
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                placeholder="eg. Hawker Centre"
-                                className="flex-1 pl-1 outline-none bg-transparent text-gray-600 placeholder-gray-400"
-                            />
-                            {inputValue === "" ? (
-                                <button className="bg-[#787880] text-white rounded-full p-1.5">
-                                    <ArrowUpCircle size={18} />
-                                </button>) :
-                                (<button onClick={activeClaim} className="bg-[#32D74B] text-white rounded-full p-1.5 active:scale-90 transition-transform duration-200">
-                                    <ArrowUpCircle size={18} />
-                                </button>)
-                            }
-                        </div>
-                        {onClaim ? <p onClick={startTimer} className=" w-full border-t-[0.5px] border-t-borderBlack text-center text-[#007AFF] text-[2.3vmax] xs:text-[2.35vmax] sm:text-[1.5vmax]
-                        active:scale-90 transition-transform duration-200">Claim now</p>
-                            :
-                            <p className=" w-full border-t-[0.5px] border-t-borderBlack text-center text-[#646464] text-[6vmin] xs:text-[6vmin] sm:text-[2.5vmin]
-                        active:scale-90 transition-transform duration-200">Claim now</p>}
                     </div>
                 </div>
-
-                <Link href="/balance" className=" min-h-[90px] py-[3%] bg-boxBg rounded-[23px] w-[90%] sm:w-[90%] flex flex-col justify-center items-center relative">
-                    <p className=" text-white text-[5vmin] xs:text-[6vmin] sm:text-[3vmin] z-10 font-bold">Get More Tickets</p>
-                    <p className=" text-white opacity-50 text-[3vmin] sm:text-[1.3vmin] ">Exchange your PDG for tickets to enter the game.</p>
-                    <p className=" w-full py-[2%] mt-[4%] border-t-[0.5px] border-t-borderBlack text-center text-[#FF453A] text-[4vmin] xs:text-[5vmin] sm:text-[2.5vmin]
-                        active:scale-90 transition-transform duration-200">Go to get tickets</p>
-                </Link>
+                <div className="w-full flex justify-center items-center relative">
+                    <div className={` bg-[#41A4FF] w-[90%] px-[3%] ${viewportHeight < 700 ? 'py-2' : 'py-4'}  rounded-[23px] flex flex-col gap-4 justify-between`}>
+                        <div className="w-full  px-[3%] rounded-[23px] flex items-center relative ">
+                            <div className=" w-full flex justify-between z-10 ">
+                                <div className="flex flex-col ">
+                                    <div className=" flex justify-around">
+                                        <p className="w-full text-[6vmin] sm:text-[2vmin] font-normal text-black ">This Week Question</p>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <p className={` text-black text-[3vmin] sm:text-[1.2vmin] `}>Verified Knowledge.<br />Real Rewards.</p>
+                                    </div>
+                                </div>
+                                <div className="w-[18vmin] sm:w-[6vmin] aspect-[114/129] relative  ">
+                                    <Image
+                                        src="/image/sagu_main_icon.png"
+                                        alt="main logo"
+                                        layout="fill"
+                                        objectFit="cover"
+                                    />
+                                </div>
+                            </div>
+                            <div className="absolute top-0 right-[5%] w-[60%] aspect-[2/1] bg-gradient-to-b from-[#E1FF41] to-white opacity-60 rounded-[80%] blur-2xl filter"></div>
+                        </div>
+                        <div className="w-full bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
+                            <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">What is one piece of advice you'd give to your past self before the rise of AI, and why?</p>
+                        </div>
+                        <div className="w-full flex justify-center relative gap-[5%]  ">
+                            <Link href="/balance" className="w-[45%] rounded-[24px] py-3  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
+                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">Go to Answer</p>
+                            </Link>
+                            <Link href="/daily" className="w-[45%] rounded-[24px] py-3 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
+                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">Get Tickets</p>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <div className=" w-[90%] h-[15%] flex justify-between  ">
+                    <div className=" py-2 bg-mainBoxBg rounded-[23px] w-[47%] flex flex-col justify-center items-center relative">
+                        <div className=" w-full flex justify-center gap-[10%]">
+                            <div className="w-[8vmin] sm:w-[6vmin] aspect-[98/101] relative  ">
+                                <Image
+                                    src="/image/sagu_game.png"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <p className={` text-white text-[5vmin] sm:text-[3vmin] font-bold
+               mt-1 `}>{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o}</p>
+                        </div>
+                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[4vmin] xs:text-[5vmin] sm:text-[2.5vmin]
+                        active:scale-90 transition-transform duration-200">Your SAGU Point</p>
+                    </div>
+                    <div className=" py-2 bg-mainBoxBg rounded-[23px] w-[47%] flex flex-col justify-center items-center relative">
+                        <div className=" w-full flex justify-center gap-[10%]">
+                            <div className="w-[8vmin] sm:w-[6vmin] aspect-[72/74] relative  ">
+                                <Image
+                                    src="/image/sagu_ticket_icon.png"
+                                    alt="main logo"
+                                    layout="fill"
+                                    objectFit="cover"
+                                />
+                            </div>
+                            <p className={` text-white text-[5vmin] sm:text-[3vmin] font-bold `}>{tickets}</p>
+                        </div>
+                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[4vmin] xs:text-[5vmin] sm:text-[2.5vmin]
+                        active:scale-90 transition-transform duration-200">Your Tickets</p>
+                    </div>
+                </div>
+                <div className="  w-[90%] flex flex-col gap-2 justify-center items-center relative">
+                    <div className="w-full text-white">Join Our community</div>
+                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[30px] flex justify-between items-center w-full py-4 px-4">
+                        <div className="w-[8vmin] sm:w-[6vmin] aspect-[60/60] relative  ">
+                            <Image
+                                src="/image/sagu_x_icon.png"
+                                alt="main logo"
+                                layout="fill"
+                                objectFit="cover"
+                            />
+                        </div>
+                        <p className="text-black">Join our X , earn SAGU Point</p>
+                        <p className="text-black h-full opacity-60">...</p>
+                    </a>
+                </div>
             </motion.div>
         </AnimatePresence>
     );

@@ -17,6 +17,7 @@ export default {
         taskBg: 'rgb(2, 116, 116, 0.08)',
         taskBg2: 'rgb(116, 2, 65, 0.08)',
         boxBg: 'rgb(0, 0, 0, 0.41)',
+        mainBoxBg: 'rgb(0, 0, 0, 0.6)',
         borderBlack: 'rgb(0, 0, 0, 0.3)',
       },
       fontFamily: {
