@@ -130,7 +130,7 @@ export default function ClaimTimer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className={` flex flex-col justify-start items-center ${viewportHeight < 700 ? 'gap-0' : viewportHeight < 800 ? 'gap-5 pt-4' : 'gap-8 pt-4'}`}
+            <motion.div className={` flex flex-col justify-start items-center ${viewportHeight < 700 ? 'gap-0' : viewportHeight < 800 ? 'gap-5 ' : 'gap-6 '}`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
