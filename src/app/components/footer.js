@@ -10,17 +10,17 @@ import { usePathname } from "next/navigation";
 
 
 export default function Footer() {
-    const { hasTickets } = useContext(TicketContext);
+    // const { hasTickets } = useContext(TicketContext);
     const [menuColor, setMenuColor] = useState(0);
     const pathname = usePathname()
     // console.log(hasTickets);
 
-    const useTickets = () => {
-        const nowTickets = localStorage.getItem("tickets");
-        localStorage.setItem("tickets", Number(nowTickets) - 1);
-        window.dispatchEvent(new Event(TICKETS_UPDATE_EVENT));
+    // const useTickets = () => {
+    //     const nowTickets = localStorage.getItem("tickets");
+    //     localStorage.setItem("tickets", Number(nowTickets) - 1);
+    //     window.dispatchEvent(new Event(TICKETS_UPDATE_EVENT));
 
-    }
+    // }
 
     const changeMenuColor = (num) => {
         setMenuColor(num);
@@ -28,9 +28,12 @@ export default function Footer() {
 
     useEffect(() => {
         if (pathname.includes('daily')) {
-          setMenuColor(1)
+            setMenuColor(1)
         }
-      }, [pathname])
+        if (pathname.includes('balance')) {
+            setMenuColor(4)
+        }
+    }, [pathname])
 
     return (
         <AnimatePresence mode="wait">
@@ -64,8 +67,8 @@ export default function Footer() {
                             />
                         </div>
                     </Link>
-                    {hasTickets ? <Link href="/games">
-                        <div onClick={useTickets} className="w-[15vmin] sm:w-[8vmin] aspect-[98/101] relative active:scale-90 transition-transform duration-200">
+                    <Link href="/balance">
+                        <div className="w-[15vmin] sm:w-[8vmin] aspect-[98/101] relative active:scale-90 transition-transform duration-200">
                             <Image
                                 src="/image/sagu_game.png"
                                 alt="meatIcon"
@@ -75,19 +78,7 @@ export default function Footer() {
 
                             />
                         </div>
-                    </Link> :
-                        <div className="w-[15vmin] sm:w-[8vmin] aspect-[98/101] relative active:scale-90 transition-transform duration-200">
-                            <Image
-                                src="/image/sagu_game_off.png"
-                                alt="meatIcon"
-                                fill
-                                style={{ objectFit: "cover" }}
-                                priority
-
-                            />
-                        </div>
-                    }
-
+                    </Link>
                     <Link href="/invite" onClick={() => changeMenuColor(2)} className={`${menuColor === 2 ? 'bg-[#CCE73C]' : 'bg-footerIconBg'}  w-[13%] aspect-[1/1] rounded-full flex justify-center items-center`}>
                         <div className="w-[7vmin] sm:w-[3vmin] aspect-[36/36] relative active:scale-90 transition-transform duration-200">
                             <Image

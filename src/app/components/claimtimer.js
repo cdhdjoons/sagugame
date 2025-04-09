@@ -22,7 +22,6 @@ export default function ClaimTimer() {
     const timerRef = useRef(null);
     const hasFinished = useRef(false);
     const [tickets, setTickets] = useState(0);
-    const [viewportHeight, setViewportHeight] = useState(0);
 
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기
@@ -35,6 +34,7 @@ export default function ClaimTimer() {
             const remainingTime = Math.max(TIMER_DURATION - elapsedTime, 0);
 
             if (remainingTime > 0) {
+                hasFinished.current = false;
                 setTime(remainingTime);
                 setOnClaim(false);
                 startInterval(remainingTime);
@@ -62,11 +62,13 @@ export default function ClaimTimer() {
             setTickets(Number(storedTickets));
         }
 
-        const updateHeight = () => setViewportHeight(window.innerHeight);
-        updateHeight();
-        window.addEventListener('resize', updateHeight);
-        return () => window.removeEventListener('resize', updateHeight);
 
+        // Cleanup interval on unmount
+        return () => {
+            if (timerRef.current) {
+                clearInterval(timerRef.current);
+            }
+        };
     }, []);
 
     const startInterval = () => {
@@ -130,14 +132,14 @@ export default function ClaimTimer() {
 
     return (
         <AnimatePresence mode="wait">
-            <motion.div className={` flex flex-col justify-start items-center ${viewportHeight < 700 ? 'gap-0' : viewportHeight < 800 ? 'gap-5 ' : 'gap-6 '}`}
+            <motion.div className={` h-full flex flex-col justify-evenly items-center `}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
             >
-                <div className="w-full flex justify-center items-center relative ">
-                    <div className="w-[90%] py-4 h-full gap-2 sm:w-[90%] relative flex flex-col justify-between items-center rounded-[23px] bg-mainBoxBg">
+                <div className="w-full h-[20%] flex justify-center items-center relative ">
+                    <div className="w-[90%] py-[5%] h-full sm:w-[90%] relative flex flex-col justify-between items-center rounded-[23px] bg-mainBoxBg">
                         <div className="w-full flex justify-center gap-[10%] items-center  ">
                             <p className="  text-[#E1FF41] text-[4.5vmin] sm:text-[2.5vmin] font-bold">Earn SAGU</p>
                             <p className=" text-[#808080] text-[4.5vmin] sm:text-[2.5vmin] font-bold ">{formatTime(time)}</p>
@@ -151,9 +153,9 @@ export default function ClaimTimer() {
                         </div>
                     </div>
                 </div>
-                <div className="w-full flex justify-center items-center relative">
-                    <div className={` bg-[#41A4FF] w-[90%] px-[3%] ${viewportHeight < 700 ? 'py-2' : 'py-3'}  rounded-[23px] flex flex-col gap-4 justify-between`}>
-                        <div className="w-full  px-[3%] rounded-[23px] flex items-center relative ">
+                <div className="w-full h-[45%] py-[2%] flex justify-center items-center relative">
+                    <div className={` bg-[#41A4FF] h-full w-[90%] px-[3%] py-[2%] rounded-[23px] flex flex-col gap-[2%] justify-between`}>
+                        <div className="w-full px-[3%] rounded-[23px] flex items-center relative ">
                             <div className=" w-full flex justify-between z-10 ">
                                 <div className="flex flex-col ">
                                     <div className=" flex justify-around">
@@ -174,14 +176,14 @@ export default function ClaimTimer() {
                             </div>
                             <div className="absolute top-0 right-[5%] w-[60%] aspect-[2/1] bg-gradient-to-b from-[#E1FF41] to-white opacity-60 rounded-[80%] blur-2xl filter"></div>
                         </div>
-                        <div className="w-full bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
+                        <div className="w-full h-[50%] bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
                             <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">What is one piece of advice you'd give to your past self before the rise of AI, and why?</p>
                         </div>
-                        <div className="w-full flex justify-center relative gap-[5%]  ">
-                            <Link href="/balance" className="w-[45%] rounded-[24px] py-3  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
+                        <div className="w-full h-[15%] flex justify-center relative gap-[5%]  ">
+                            <Link href="/balance" className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
                                 <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">Go to Answer</p>
                             </Link>
-                            <Link href="/daily" className="w-[45%] rounded-[24px] py-3 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
+                            <Link href="/daily" className="w-[45%] rounded-[24px] py-2 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
                                 <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">Get Tickets</p>
                             </Link>
                         </div>
@@ -201,7 +203,7 @@ export default function ClaimTimer() {
                             <p className={` text-white text-[5vmin] sm:text-[3vmin] font-bold
                mt-1 `}>{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o}</p>
                         </div>
-                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[4vmin] xs:text-[5vmin] sm:text-[2.5vmin]
+                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[3.8vmin] xs:text-[4.5vmin] sm:text-[2.3vmin]
                         active:scale-90 transition-transform duration-200">Your SAGU Point</p>
                     </div>
                     <div className=" py-2 bg-mainBoxBg rounded-[23px] w-[47%] flex flex-col justify-center items-center relative">
@@ -216,14 +218,14 @@ export default function ClaimTimer() {
                             </div>
                             <p className={` text-white text-[5vmin] sm:text-[3vmin] font-bold `}>{tickets}</p>
                         </div>
-                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[4vmin] xs:text-[5vmin] sm:text-[2.5vmin]
+                        <p className=" w-full py-[2%] mt-[4%] text-center text-white text-[3.8vmin] xs:text-[4.5vmin] sm:text-[2.3vmin]
                         active:scale-90 transition-transform duration-200">Your Tickets</p>
                     </div>
                 </div>
-                <div className="  w-[90%] flex flex-col gap-2 justify-center items-center relative">
-                    <div className="w-full text-white">Join Our community</div>
-                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[30px] flex justify-between items-center w-full py-2 px-4">
-                        <div className="w-[8vmin] sm:w-[6vmin] aspect-[60/60] relative  ">
+                <div className="  w-[90%] h-[13%] flex flex-col gap-[5%] justify-evenly items-center relative">
+                    <div className="w-full text-white text-[4vmin] sm:text-[2vmin]">Join Our community</div>
+                    <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className="bg-white rounded-[30px] flex justify-between items-center w-full py-[1%] px-4">
+                        <div className="w-[8vmin] sm:w-[5vmin] aspect-[60/60] relative  ">
                             <Image
                                 src="/image/sagu_x_icon.png"
                                 alt="main logo"
@@ -231,7 +233,7 @@ export default function ClaimTimer() {
                                 objectFit="cover"
                             />
                         </div>
-                        <p className="text-black">Join our X , earn SAGU Point</p>
+                        <p className="text-black text-[4vmin] sm:text-[2vmin]">Join our X , earn SAGU Point</p>
                         <p className="text-black h-full opacity-60">...</p>
                     </a>
                 </div>

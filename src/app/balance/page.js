@@ -1,6 +1,7 @@
 'use client'
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TICKETS_UPDATE_EVENT } from '../components/clientOnlyWarpper';
@@ -8,9 +9,11 @@ import Alert from '@mui/material/Alert';
 
 export default function Balance() {
   const [pop, setPop] = useState(false);
+  const [okPop, setOkPop] = useState(0);
   const [n2o, setN2O] = useState(0);
   const [tickets, setTickets] = useState(0);
-
+  const [answer, setAnswer] = useState("");
+  const [worngAnswer, setWrongAnswer] = useState("");
 
   useEffect(() => {
     // 초기 n2o 값 불러오기
@@ -24,39 +27,41 @@ export default function Balance() {
       setTickets(Number(storedTickets));
     }
   }, []);
-
-  const getTicket = (ticketNum, price) => {
-    //티켓 가격보다 n2o가 작으면 팝업
-    // console.log(n2o);
-    if (n2o < Number(price)) {
+  const useTickets = () => {
+    //대답이 10글자 이상되어야함
+    if (answer.length < 10) {
       setPop(true);
-      setTimeout(() => setPop(false), 1500); // 1.5초 후 복사 메시지 초기화
+      setTimeout(() => setPop(false), 2000);
       return;
     }
-    //가격이 성립하면 n2o 가격만큼 줄이고, 티켓 갯수만큼 늘어남(로컬스토리지, state 모두 업뎃)
-    setN2O((prevN2O) => {
-      const newN2O = prevN2O - price;
-      if (newN2O < 0) {
-        return prevN2O;
-      }
-      localStorage.setItem("n2o", newN2O);  // 로컬스토리지 업데이트
-      return newN2O;  // 상태 업데이트
-    });
-
-    setTickets((prevTickets) => {
-      const newTickets = prevTickets + ticketNum;
-      localStorage.setItem("tickets", newTickets);  // 로컬스토리지 업데이트
-      return newTickets;  // 상태 업데이트
-    });
-
+    //틀린답 연속으로 적었을때
+    if (answer === worngAnswer) {
+      setOkPop(2);
+      setTimeout(() => setOkPop(0), 2000);
+      return;
+    }
+    //60%확률로 대답 성공
+    const chance = Math.random();
+    if (chance < 0.6) {
+      localStorage.setItem("tickets", tickets - 1);
+      localStorage.setItem("timerStartTime", Date.now().toString());
+      setTickets(tickets - 1);
+      setAnswer("");
+      setOkPop(1);
+      setTimeout(() => setOkPop(0), 2000);
+    } else {
+      setWrongAnswer(answer);
+      setOkPop(2);
+      setTimeout(() => setOkPop(0), 2000);
+    }
+    
   }
-
-  // 상태가 변경된 후에 로컬스토리지와 이벤트 디스패치 처리
-  useEffect(() => {
-    // tickets 상태가 변경될 때만 실행
-    window.dispatchEvent(new Event(TICKETS_UPDATE_EVENT)); // footer에 ticket 값 변경 알림
-  }, [tickets]);  // tickets 상태가 변경될 때만 실행
-
+  //textarea 대답 관리
+  const handleChange = (e) => {
+    const input = e.target.value;
+    setAnswer(input);
+  };
+ 
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -66,117 +71,76 @@ export default function Balance() {
         exit={{ opacity: 0 }}
         transition={{ duration: 1 }}
       >
-        <div className="w-full h-full max-w-[500px] relative flex flex-col justify-evenly " >
-          <div className=" w-full h-[25%] flex justify-center items-center relative mb-[5%] ">
-            <div className=" flex flex-col justify-center items-center w-[90%] h-full bg-boxBg rounded-[23px]">
-              <div className=" w-[90%] h-[50%] relative flex justify-between items-center border-b-[0.5px] border-b-white  ">
-                <div className=" w-[11vmin] sm:w-[6vmin] aspect-[75/75] relative ">
-                  <Image
-                    src="/image/p_icon.png"
-                    alt="meatIcon"
-                    layout="fill"
-                    objectFit="cover"
-                  />
+        <div className="w-full h-full relative flex flex-col items-center justify-evenly " >
+          <div className=" w-[90%] flex flex-col px-[3%]">
+            <div className=" w-full flex flex-col ">
+              <p className="text-white text-[3.5vmin] sm:text-[2.5vmin] xs:text-[4.5vmin]">Task center</p>
+            </div>
+            <div className="w-[50vmin] sm:w-[40vmin] aspect-[306/59] relative">
+              <Image
+                src="/image/sagu_logo.png"
+                alt="main logo"
+                layout="fill"
+                objectFit="cover"
+              />
+            </div>
+          </div>
+          <div className="w-full h-[85%] py-[2%] flex justify-center items-center relative">
+            <div className={` bg-[#41A4FF] h-full w-[90%] px-[3%] py-[3%] rounded-[23px] flex flex-col gap-[2%] justify-between`}>
+              <div className="w-full px-[3%] rounded-[23px] flex items-center relative ">
+                <div className=" w-full flex justify-between z-10 ">
+                  <div className="flex flex-col ">
+                    <div className=" flex justify-around">
+                      <p className="w-full text-[6vmin] sm:text-[2vmin] font-normal text-black ">This Week Question</p>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <p className={` text-black text-[3vmin] sm:text-[1.2vmin] `}>Verified Knowledge.<br />Real Rewards.</p>
+                    </div>
+                  </div>
                 </div>
-                <div className=" flex flex-col items-start w-[55%] ">
-                  <p className=" text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-white">PDG</p>
-                  <p className=" text-[2vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">PRODIGI Connect</p>
-                </div>
-                <p className=" w-[20%] text-center font-bold text-white text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] ">{n2o >= 1000000 ? `${n2o / 1000000}m` : n2o >= 1000 ? `${n2o / 1000}k` : n2o}</p>
+                <div className="absolute top-0 right-[5%] w-[60%] aspect-[2/1] bg-gradient-to-b from-[#E1FF41] to-white opacity-60 rounded-[80%] blur-2xl filter"></div>
               </div>
-              <div className=" w-[90%] h-[50%] relative flex justify-between items-center ">
-                <div className=" w-[10vmin] sm:w-[6vmin] aspect-[65/75] relative ">
-                  <Image
-                    src="/image/pdg_ticket.png"
-                    alt="meatIcon"
-                    layout="fill"
-                    objectFit="cover"
-                  />
+              <div className="w-full h-[25%] bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
+                <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">What is one piece of advice you'd give to your past self before the rise of AI, and why?</p>
+              </div>
+              <div className=" w-full h-[40%] relative flex flex-col items-start font-normal drop-shadow-lg">
+                <div className="flex flex-col ">
+                  <p className=" text-white text-[6vmin] sm:text-[4vmin] font-bold">How it works</p>
+                  <p className=" text-white text-[3.5vmin] sm:text-[2.3vmin] font-bold">Answer the Weekly Question</p>
+                  <p className=" text-white text-[3vmin] sm:text-[1.7vmin]">Share your thoughts, knowledge, or insights by submitting your response.</p>
                 </div>
-                <div className=" flex flex-col w-[55%] items-start ">
-                  <p className=" text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-white">Tickets</p>
-                  <p className=" text-[2vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">Gaming Tickets</p>
+                <div className="flex flex-col">
+                  <p className=" text-white text-[3.5vmin] sm:text-[2.3vmin] font-bold">AI Reviews Your Submission</p>
+                  <p className=" text-white text-[3vmin] sm:text-[1.7vmin]">Within 6 hours, our AI will evaluate your answer based on accuracy, relevance, and depth.</p>
                 </div>
-                <p className=" w-[20%] text-center font-bold text-white text-[2.5vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] ">{tickets}</p>
+                <p className=" text-white text-[3.5vmin] sm:text-[2.5vmin] font-bold">Earn SAGU Tokens</p>
+                <p className=" text-white text-[3vmin] sm:text-[2.5vmin]">Once reviewed, you'll automatically receive SAGU rewards based on the quality of your contribution.</p>
+              </div>
+              <textarea value={answer} onChange={handleChange} className="w-full bg-white h-[25%] pt-[16%] flex justify-center items-center text-center text-black text-[3.5vmin] sm:text-[2vmin] " placeholder="Fill out your answer"></textarea>
+              <div className="w-full h-[8%] flex justify-center relative gap-[5%]  ">
+                {tickets > 0 ? (<div onClick={useTickets} className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
+                  <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">1 ticket / Answer</p>
+                </div>) : (<div className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#585858] ">
+                  <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">1 ticket / Answer</p>
+                </div>)}
+                <Link href="/daily" className="w-[45%] rounded-[24px] py-2 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
+                  <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">Get Tickets</p>
+                </Link>
               </div>
             </div>
           </div>
-          <p className="w-full pl-[10%] text-left text-[4.3vmax] xs:text-[4vmax] sm:text-[4.5vmin] text-black font-bold ">Get Tickets</p>
-          <div className=" w-full h-[55%] py-[1vmin] flex gap-3 flex-col items-center justify-center">
-            <div  className=" w-[90%] px-[5%] h-[30%] flex flex-col items-center relative  bg-boxBg rounded-[23px] ">
-              <div className="w-full h-[60%] flex items-center border-b-[0.5px] border-b-white">
-                <div className=" w-[10vmin] sm:w-[6vmin] aspect-[65/75] relative ">
-                  <Image
-                    src="/image/pdg_ticket.png"
-                    alt="meatIcon"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className="w-[80%] flex flex-col ">
-                  <p className=" text-white text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] text-end">Get 1 Ticket for Gaming</p>
-                  <div className=" flex justify-end gap-1 " >
-                    <p className="text-white text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] text-right font-bold ">500</p>
-                    <p className=" text-center text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] 
-        bg-gradient-to-r from-[#BADA8E] to-[#3daeb2] bg-clip-text text-transparent font-bold ">PDG</p>
-                  </div>
-                </div>
-              </div>
-              <div onClick={() => getTicket(1, 500)} 
-              className=" w-full text-center h-[40%] flex justify-center items-center text-[#00FF08]
-               text-[2vmax] xs:text-[1.5vmax] sm:text-[1.7vmin] active:scale-90 transition-transform duration-200"> Get now</div>
-            </div>
-            <div  className=" w-[90%] px-[5%] h-[30%] flex flex-col items-center relative  bg-boxBg rounded-[23px] ">
-              <div className="w-full h-[60%] flex items-center border-b-[0.5px] border-b-white">
-                <div className=" w-[10vmin] sm:w-[6vmin] aspect-[65/75] relative ">
-                  <Image
-                    src="/image/pdg_ticket.png"
-                    alt="meatIcon"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className="w-[80%] flex flex-col ">
-                  <p className=" text-white text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] text-end">Get 1 Ticket for Gaming</p>
-                  <div className=" flex justify-end gap-1 " >
-                    <p className="text-white text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] text-right font-bold ">1300</p>
-                    <p className=" text-center text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] 
-        bg-gradient-to-r from-[#BADA8E] to-[#3daeb2] bg-clip-text text-transparent font-bold ">PDG</p>
-                  </div>
-                </div>
-              </div>
-              <div onClick={() => getTicket(3, 1300)} 
-              className=" w-full text-center h-[40%] flex justify-center items-center
-               text-[#00FF08] text-[2vmax] xs:text-[1.5vmax] sm:text-[1.7vmin] active:scale-90 transition-transform duration-200"> Get now</div>
-            </div>
-            <div className=" w-[90%] px-[5%] h-[30%] flex flex-col items-center relative  bg-boxBg rounded-[23px] ">
-              <div className="w-full h-[60%] flex items-center border-b-[0.5px] border-b-white">
-                <div className=" w-[10vmin] sm:w-[6vmin] aspect-[65/75] relative ">
-                  <Image
-                    src="/image/pdg_ticket.png"
-                    alt="meatIcon"
-                    layout="fill"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className="w-[80%] flex flex-col ">
-                  <p className=" text-white text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] text-end">Get 1 Ticket for Gaming</p>
-                  <div className=" flex justify-end gap-1 " >
-                    <p className="text-white text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] text-right font-bold ">2000</p>
-                    <p className=" text-center text-[2.5vmax] xs:text-[2vmax] sm:text-[2.2vmin] 
-        bg-gradient-to-r from-[#BADA8E] to-[#3daeb2] bg-clip-text text-transparent font-bold ">PDG</p>
-                  </div>
-                </div>
-              </div>
-              <div onClick={() => getTicket(5, 2000)}
-               className=" w-full text-center h-[40%] flex justify-center items-center
-                text-[#00FF08] text-[2vmax] xs:text-[1.5vmax] sm:text-[1.7vmin] active:scale-90 transition-transform duration-200"> Get now</div>
-            </div>
-            
-          </div>
-          {pop && (
-            <div className=" absolute top-[10px] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">Need more PDG.</Alert></div>
-          )}
+          {
+            pop && (
+              <div className="w-[70%] absolute top-[10px] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">Please type more than 10 letters.</Alert></div>
+            )
+          }
+          {
+            okPop === 1 ? (
+              <div className="w-[70%] absolute top-[10px] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">It's an appropriate answer.</Alert></div>
+            ) : okPop === 2 ? (
+              <div className="w-[70%] absolute top-[10px] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">It's not appropriate answer. Try again.</Alert></div>
+            ) : ""
+          }
         </div>
       </motion.div>
     </AnimatePresence>
