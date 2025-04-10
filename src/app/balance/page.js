@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TICKETS_UPDATE_EVENT } from '../components/clientOnlyWarpper';
 import Alert from '@mui/material/Alert';
+import questionDb from "../db/questionDb";
 
 export default function Balance() {
   const [pop, setPop] = useState(false);
@@ -14,6 +15,7 @@ export default function Balance() {
   const [tickets, setTickets] = useState(0);
   const [answer, setAnswer] = useState("");
   const [worngAnswer, setWrongAnswer] = useState("");
+  const [week, setWeek] = useState(0);
 
   useEffect(() => {
     // 초기 n2o 값 불러오기
@@ -25,6 +27,12 @@ export default function Balance() {
     const storedTickets = localStorage.getItem("tickets");
     if (storedTickets !== null) {
       setTickets(Number(storedTickets));
+    }
+
+    //몇 주 차 인지 값 불러오기
+    const storedWeek = localStorage.getItem("week");
+    if (storedWeek !== null) {
+        setWeek(Number(storedWeek));
     }
   }, []);
   const useTickets = () => {
@@ -101,7 +109,7 @@ export default function Balance() {
                 <div className="absolute top-0 right-[5%] w-[60%] aspect-[2/1] bg-gradient-to-b from-[#E1FF41] to-white opacity-60 rounded-[80%] blur-2xl filter"></div>
               </div>
               <div className="w-full h-[25%] bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
-                <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">What is one piece of advice you'd give to your past self before the rise of AI, and why?</p>
+                <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">{questionDb[week].question}</p>
               </div>
               <div className=" w-full h-[40%] relative flex flex-col items-start font-normal drop-shadow-lg">
                 <div className="flex flex-col ">
@@ -116,7 +124,7 @@ export default function Balance() {
                 <p className=" text-white text-[3.5vmin] sm:text-[2.5vmin] font-bold">Earn SAGU Tokens</p>
                 <p className=" text-white text-[3vmin] sm:text-[2.5vmin]">Once reviewed, you'll automatically receive SAGU rewards based on the quality of your contribution.</p>
               </div>
-              <textarea value={answer} onChange={handleChange} className="w-full bg-white h-[25%] pt-[16%] flex justify-center items-center text-center text-black text-[3.5vmin] sm:text-[2vmin] " placeholder="Fill out your answer"></textarea>
+              <textarea value={answer} onChange={handleChange} className="w-full bg-white h-[25%] py-[3%] px-[3%] placeholder:py-[12%] placeholder:text-center flex justify-center items-center text-left text-black text-[3.5vmin] sm:text-[2vmin] " placeholder="Fill out your answer"></textarea>
               <div className="w-full h-[8%] flex justify-center relative gap-[5%]  ">
                 {tickets > 0 ? (<div onClick={useTickets} className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
                   <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">1 ticket / Answer</p>

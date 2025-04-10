@@ -25,7 +25,7 @@ export default function LeaderBoard() {
             setN2O(Number(storedN2O));
         }
         setHolderCount(holderCount + (dayCount / 10));
-        console.log(dayCount);
+        // console.log(dayCount);
     }, []);
 
     //랭킹 순위

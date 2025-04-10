@@ -2,16 +2,10 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Libre_Caslon_Text } from "next/font/google"
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpCircle } from "lucide-react";
-
-const libreCaslon = Libre_Caslon_Text({
-    subsets: ["latin"],
-    weight: ["400", "700"], // Regular (400) & Bold (700)
-    display: "swap",
-});
+import questionDb from "../db/questionDb";
 
 export default function ClaimTimer() {
     const TIMER_DURATION = 21600; // 6 hours in seconds
@@ -22,6 +16,7 @@ export default function ClaimTimer() {
     const timerRef = useRef(null);
     const hasFinished = useRef(false);
     const [tickets, setTickets] = useState(0);
+    const [week, setWeek] = useState(0);
 
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기
@@ -60,6 +55,11 @@ export default function ClaimTimer() {
         const storedTickets = localStorage.getItem("tickets");
         if (storedTickets !== null) {
             setTickets(Number(storedTickets));
+        }
+        //몇 주 차 인지 값 불러오기
+        const storedWeek = localStorage.getItem("week");
+        if (storedWeek !== null) {
+            setWeek(Number(storedWeek));
         }
 
 
@@ -177,7 +177,7 @@ export default function ClaimTimer() {
                             <div className="absolute top-0 right-[5%] w-[60%] aspect-[2/1] bg-gradient-to-b from-[#E1FF41] to-white opacity-60 rounded-[80%] blur-2xl filter"></div>
                         </div>
                         <div className="w-full h-[50%] bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
-                            <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">What is one piece of advice you'd give to your past self before the rise of AI, and why?</p>
+                            <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">{questionDb[week].question}</p>
                         </div>
                         <div className="w-full h-[15%] flex justify-center relative gap-[5%]  ">
                             <Link href="/balance" className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
