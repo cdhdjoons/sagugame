@@ -122,14 +122,7 @@ export default function DailyTask() {
                             <p className="text-white text-[3vmin] sm:text-[2vmin] xs:text-[4.5vmin]"><span className="font-bold">Use your SAGU tokens to purchase a participation ticket.<br /></span>
                                 Once you hold a ticket, you can submit your answer to this week's question and start earning rewards based on your contribution.</p>
                         </div>
-                        {/* <div className="w-full flex justify-center relative gap-[5%]  ">
-                            <div className="w-[45%] rounded-[24px] py-1  flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
-                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">1Ticket / 500 SAGU</p>
-                            </div>
-                            <div className="w-[45%] rounded-[24px] py-2 flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
-                                <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin]">5Ticket / 2K SAGU</p>
-                            </div>
-                        </div> */}
+                        
                         <Tickets />
                     </div>
                     <div className=" w-full h-[60%] px-[2%]  flex flex-col items-center " >
@@ -162,7 +155,7 @@ export default function DailyTask() {
                                     </div>
                                     <div className=" flex flex-col items-start w-[55%] ">
                                         <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">Daily Reward</p>
-                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">100 PDG</p>
+                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">100 SAGU</p>
                                     </div>
                                     <div className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledDaily[0] ? 'opacity-100' : 'opacity-20'}`}>
                                         <div onClick={() => dailyHandleClick(0, 100)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledDaily[0] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
@@ -179,7 +172,7 @@ export default function DailyTask() {
                                     </div>
                                     <div className=" flex flex-col items-start w-[55%] ">
                                         <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">RT our Post</p>
-                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1k PDG</p>
+                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1 SAGU</p>
                                     </div>
                                     <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledDaily[1] ? 'opacity-100' : 'opacity-20'}`}>
                                         <div onClick={() => dailyHandleClick(1, 1000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledDaily[1] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
@@ -214,7 +207,7 @@ export default function DailyTask() {
                                     </div>
                                     <div className=" flex flex-col items-start w-[55%] ">
                                         <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">Follow X</p>
-                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1K PDG</p>
+                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">1K SAGU</p>
                                     </div>
                                     <a href="https://x.com/SAGE_officialX" target="_blank" rel="noopener noreferrer" className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledTask[0] ? 'opacity-100' : 'opacity-20'}`}>
                                         <div onClick={() => handleClick(0, 1000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledTask[0] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>
@@ -231,7 +224,7 @@ export default function DailyTask() {
                                     </div>
                                     <div className=" flex flex-col items-start w-[55%] ">
                                         <p className=" text-[2.1vmax] xs:text-[2.3vmax] sm:text-[2.2vmin] font-bold text-black">Invite 5 users</p>
-                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">5k PDG | {inviteCount}/5users</p>
+                                        <p className=" text-[1.8vmax] xs:text-[1.5vmax] sm:text-[1.9vmin] text-[#C0C0C0]">5k SAGU | {inviteCount}/5users</p>
                                     </div>
                                     <div className={` w-[20%] bg-[#767DFF] h-[50%] rounded-3xl relative duration-300 transition-all ${disabledTask[1] ? 'opacity-100' : 'opacity-20'}`}>
                                         <div onClick={() => handleClick(1, 5000)} className={`w-[40%] duration-300 aspect-[1/1] transition-all rounded-full bg-white absolute top-[50%] -translate-y-[50%] ${disabledTask[1] ? "-translate-x-[100%] left-full" : "translate-x-0 left-0"}`}></div>

@@ -17,6 +17,7 @@ export default function ClaimTimer() {
     const hasFinished = useRef(false);
     const [tickets, setTickets] = useState(0);
     const [week, setWeek] = useState(0);
+    
 
     useEffect(() => {
         // localStorage에서 시작 시간 불러오기

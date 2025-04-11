@@ -51,12 +51,6 @@ export default function Tickets() {
 
     }
 
-    // 상태가 변경된 후에 로컬스토리지와 이벤트 디스패치 처리
-    // useEffect(() => {
-    //     // tickets 상태가 변경될 때만 실행
-    //     window.dispatchEvent(new Event(TICKETS_UPDATE_EVENT)); // footer에 ticket 값 변경 알림
-    // }, [tickets]);  // tickets 상태가 변경될 때만 실행
-
     return (
         <div className="w-full flex justify-center relative gap-[5%]  ">
             <div onClick={() => getTicket(1, 500)} className="w-[45%] rounded-[24px] py-1  flex flex-col justify-center items-center relative bg-[#FF9041] active:scale-90 transition-transform duration-100">
@@ -67,9 +61,10 @@ export default function Tickets() {
             </div>
             {
                 pop && (
-                    <div className=" absolute top-[10px] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">Need more PDG.</Alert></div>
+                    <div className=" absolute w-[60%] top-[-550%] left-1/2 -translate-x-1/2 z-[999] "><Alert severity="error">Need more SAGU.</Alert></div>
                 )
             }
+            
         </div>
     );
 }
