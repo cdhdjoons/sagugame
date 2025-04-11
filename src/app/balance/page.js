@@ -151,7 +151,7 @@ export default function Balance() {
               <div className="w-full h-[25%] bg-[#E1FF41] px-[3%] py-2 flex items-center relative ">
                 <p className="w-full text-black text-[3.5vmin] sm:text-[2vmin]">{questionDb[week].question}</p>
               </div>
-              <div className=" w-full h-[40%] relative flex flex-col items-start font-normal drop-shadow-lg">
+              <div className=" w-full min-h-[35%] h-[40%] relative flex flex-col items-start font-normal drop-shadow-lg overflow-auto ">
                 <div className="flex flex-col ">
                   <p className=" text-white text-[6vmin] sm:text-[4vmin] font-bold">How it works</p>
                   <p className=" text-white text-[3.5vmin] sm:text-[2.3vmin] font-bold">Answer the Weekly Question</p>
@@ -164,8 +164,8 @@ export default function Balance() {
                 <p className=" text-white text-[3.5vmin] sm:text-[2.5vmin] font-bold">Earn SAGU Tokens</p>
                 <p className=" text-white text-[3vmin] sm:text-[2.5vmin]">Once reviewed, you'll automatically receive SAGU rewards based on the quality of your contribution.</p>
               </div>
-              <textarea ref={inputRef} value={answer} onChange={handleChange} className="w-full bg-white h-[25%] py-[3%] px-[3%] placeholder:py-[12%] placeholder:text-center flex justify-center items-center text-left text-black text-[3.5vmin] sm:text-[2vmin] " placeholder="Fill out your answer"></textarea>
-              <div className="w-full h-[8%] flex justify-center relative gap-[5%]  ">
+              <textarea ref={inputRef} value={answer} onChange={handleChange} className="w-full bg-white min-h-[20%] h-[25%] py-[3%] px-[3%] placeholder:py-[12%] placeholder:text-center flex justify-center items-center text-left text-black text-[3.5vmin] sm:text-[2vmin] " placeholder="Fill out your answer"></textarea>
+              <div className="w-full h-[8%] min-h-[6%] flex justify-center relative gap-[5%]  ">
                 {tickets > 0 ? (<div onClick={useTickets} className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#E1FF41] active:scale-90 transition-transform duration-100">
                   <p className=" text-black text-[3.5vmin] sm:text-[1.5vmin] z-10">1 ticket / Answer</p>
                 </div>) : (<div className="w-[45%] rounded-[24px] py-2  flex flex-col justify-center items-center relative bg-[#585858] ">
